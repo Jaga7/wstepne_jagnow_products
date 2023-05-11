@@ -1,6 +1,10 @@
+import ProductContainer from "../components/ProductContainer/ProductContainer"
+
 const Home = () => {
   return (
-    <div>Home</div>
+    <div><h1>Home</h1>
+      <ProductContainer/>
+    </div>
   )
 }
 export default Home
