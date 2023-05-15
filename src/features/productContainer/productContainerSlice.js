@@ -6,7 +6,7 @@ const endpoint = "/products";
 const initialState = {
   products: [
     {
-      id: 1,
+      id: 0,
       name: "Default placeholder product",
       description: "This is a default placeholder product",
       ean: "2177350729108",
@@ -62,8 +62,10 @@ export const loadAProductFromApi = createAsyncThunk(
   "productContainer/loadAProduct",
   async (name, thunkAPI) => {
     try {
-      const resp = await api.get(`${endpoint}`);
-      return resp.data;
+      const resp = await api.get(
+        `${endpoint}?_quantity=1&_taxes=12&_categories_type=uui`
+      );
+      return resp.data.data[0];
     } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");
     }
@@ -77,6 +79,7 @@ export const createAProduct = createAsyncThunk(
 
     try {
       const resp = await api.post(endpoint, newProduct);
+      // tu nie robić post tylko zmieniać state (...state.products, newProduct)
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");

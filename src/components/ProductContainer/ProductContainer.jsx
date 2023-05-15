@@ -1,15 +1,15 @@
-import { useAppDispatch, useAppSelector } from "../../shared/utils/hooks";
+import { useAppSelector } from "../../shared/utils/hooks";
 import ProductCard from "../ProductCard/ProductCard";
-import { Box } from "@mui/material";
+import { Grid} from "@mui/material";
 
 const ProductContainer = () => {
     const { products, isLoading } = useAppSelector((state) => state.productContainer);
   return (
-    <Box>
+    <Grid container spacing={2} >
       {!isLoading && products.map((product) => (
-        <ProductCard product={product}/>
+        <ProductCard key={product.id} product={product}/>
       ))}
-      </Box>
+    </Grid>
   )
 }
 export default ProductContainer

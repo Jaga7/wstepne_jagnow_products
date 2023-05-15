@@ -4,7 +4,7 @@ import { Card, CardActions, CardContent, Button, Typography } from '@mui/materia
 const ProductCard = ({product}) => {
     const {name, price, description, image} = product;
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{ width: 300 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           {name}
