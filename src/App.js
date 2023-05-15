@@ -6,7 +6,7 @@ function App() {
     <Routes>
       <Route path='/' element={<SharedLayout />}>
         <Route index element={<Home />} />
-        <Route path='creating' element={<CreatingPage />} />
+        <Route path='create' element={<CreatingPage />} />
         <Route path=':productId/edit' element={<EditingPage />} />
       </Route>
     </Routes>

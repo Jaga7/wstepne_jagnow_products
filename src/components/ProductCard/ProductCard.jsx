@@ -21,11 +21,6 @@ const ProductCard = ({ product }) => {
         <Typography sx={{ mb: 1.5 }} color='text.secondary'>
           {description}
         </Typography>
-        <Typography variant='body2'>
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
       </CardContent>
       <CardActions>
         <Link to={`/${product.id}/edit`}>

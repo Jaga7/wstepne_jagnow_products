@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../shared/utils/api";
 
 const endpoint = "/products";
@@ -23,21 +23,6 @@ export const loadAProductFromApi = createAsyncThunk(
         `${endpoint}?_quantity=1&_taxes=12&_categories_type=uui`
       );
       return resp.data.data[0];
-    } catch (error) {
-      return thunkAPI.rejectWithValue("something went wrong");
-    }
-  }
-);
-
-export const createAProduct = createAsyncThunk(
-  "productContainer/createAProduct",
-  async (newProductTitleAndBody, thunkAPI) => {
-    const newProduct = { ...newProductTitleAndBody };
-
-    try {
-      const resp = await api.post(endpoint, newProduct);
-      // tu nie robić post tylko zmieniać state (...state.products, newProduct)
-      return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");
     }
@@ -74,6 +59,12 @@ const productContainerSlice = createSlice({
         };
       }
     },
+    createAProduct(state, action) {
+      state.products = [
+        ...state.products,
+        { ...action.payload, id: state.products.length },
+      ];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -86,34 +77,10 @@ const productContainerSlice = createSlice({
       })
       .addCase(loadAProductFromApi.rejected, (state) => {
         state.isLoading = false;
-      })
-      .addCase(createAProduct.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(createAProduct.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.products = [...state.products, action.payload];
-      })
-      .addCase(createAProduct.rejected, (state) => {
-        state.isLoading = false;
-      })
-      .addCase(deleteTheProduct.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(deleteTheProduct.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const idOfProductBeingDeleted = action.meta.arg;
-        state.products = state.products.filter(
-          // filtering out the deleted product from the local state.products array
-          (product) => product.id !== idOfProductBeingDeleted
-        );
-      })
-      .addCase(deleteTheProduct.rejected, (state) => {
-        state.isLoading = false;
       });
   },
 });
 
-export const { editTheProduct } = productContainerSlice.actions;
+export const { editTheProduct, createAProduct } = productContainerSlice.actions;
 
 export default productContainerSlice.reducer;

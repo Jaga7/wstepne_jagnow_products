@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
 
-import EditForm from "../components/EditForm/EditForm";
-import { useAppSelector } from "../shared/utils/hooks";
+import ProductForm from "../components/ProductForm/ProductForm";
+import { useAppSelector, useAppDispatch } from "../shared/utils/hooks";
+import { editTheProduct } from "../features/productContainer/productContainerSlice";
 
 const EditingPage = () => {
+  const dispatch = useAppDispatch();
   const { productId } = useParams();
   const { products, isLoading } = useAppSelector(
     (state) => state.productContainer
@@ -12,10 +14,14 @@ const EditingPage = () => {
     (product) => product.id === parseInt(productId)
   );
 
+  const handleEditSubmit = (productInfo) => {
+    dispatch(editTheProduct(productInfo));
+  };
+
   return (
     <div>
       EditingPage {productId}
-      <EditForm product={product} />
+      <ProductForm initialData={product} onSubmit={handleEditSubmit} />
     </div>
   );
 };

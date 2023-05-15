@@ -1,17 +1,8 @@
+import React, { useState } from "react";
 import { Box, TextField, Button, Input } from "@mui/material";
-import { useState } from "react";
 
-import { editTheProduct } from "../../features/productContainer/productContainerSlice";
-import { useAppDispatch } from "../../shared/utils/hooks";
-
-const EditForm = ({ product }) => {
-  const dispatch = useAppDispatch();
-  const [productInfo, setProductInfo] = useState({
-    id: product.id,
-    name: product.name,
-    description: product.description,
-    price: product.price,
-  });
+const ProductForm = ({ initialData, onSubmit }) => {
+  const [productInfo, setProductInfo] = useState(initialData);
 
   const handleFieldChange = (fieldName) => (event) => {
     setProductInfo((prevProductInfo) => ({
@@ -20,15 +11,16 @@ const EditForm = ({ product }) => {
     }));
   };
 
-  const onSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(editTheProduct(productInfo));
+    onSubmit(productInfo);
   };
+
   return (
     <Box
       component='form'
       sx={{ "& > :not(style)": { m: 1 } }}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
       noValidate
       autoComplete='off'
     >
@@ -58,10 +50,11 @@ const EditForm = ({ product }) => {
       />
       <Box sx={{ mt: 2 }}>
         <Button type='submit' variant='contained'>
-          submit
+          Submit
         </Button>
       </Box>
     </Box>
   );
 };
-export default EditForm;
+
+export default ProductForm;
