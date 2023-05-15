@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
+
 import api from "../../shared/utils/api";
 
 const endpoint = "/products";
@@ -29,18 +31,6 @@ export const loadAProductFromApi = createAsyncThunk(
   }
 );
 
-export const deleteTheProduct = createAsyncThunk(
-  "productContainer/deleteTheProduct",
-  async (idOfProductBeingDeleted, thunkAPI) => {
-    try {
-      const resp = await api.delete(`${endpoint}/${idOfProductBeingDeleted}`);
-      return resp.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue("something went wrong");
-    }
-  }
-);
-
 const productContainerSlice = createSlice({
   name: "productContainer",
   initialState,
@@ -60,10 +50,12 @@ const productContainerSlice = createSlice({
       }
     },
     createAProduct(state, action) {
-      state.products = [
-        ...state.products,
-        { ...action.payload, id: state.products.length },
-      ];
+      state.products = [...state.products, { ...action.payload, id: uuidv4() }];
+    },
+    deleteTheProduct(state, action) {
+      state.products = state.products.filter(
+        (product) => product.id !== action.payload
+      );
     },
   },
   extraReducers: (builder) => {
@@ -81,6 +73,7 @@ const productContainerSlice = createSlice({
   },
 });
 
-export const { editTheProduct, createAProduct } = productContainerSlice.actions;
+export const { editTheProduct, createAProduct, deleteTheProduct } =
+  productContainerSlice.actions;
 
 export default productContainerSlice.reducer;
