@@ -10,19 +10,17 @@ const EditingPage = () => {
   const { products, isLoading } = useAppSelector(
     (state) => state.productContainer
   );
-  const product = products.find(
-    (product) => product.id === parseInt(productId)
-  );
+  const product = products.find((product) => product.id == productId);
 
   const handleEditSubmit = (productInfo) => {
     dispatch(editTheProduct(productInfo));
   };
 
   return (
-    <div>
-      EditingPage {productId}
+    <>
+      <h1>Edit Page</h1>
       <ProductForm initialData={product} onSubmit={handleEditSubmit} />
-    </div>
+    </>
   );
 };
 export default EditingPage;

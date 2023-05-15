@@ -1,11 +1,14 @@
 import { Box, Stack } from "@mui/material";
-import MainContent from "../components/SharedLayout/MainContent";
 import { Outlet } from "react-router-dom";
+
+import { MainContent, Navigation } from "../components/SharedLayout";
+
 const SharedLayout = () => {
   return (
     <Box>
       <Stack direction='row' spacing={4}>
         <MainContent>
+          <Navigation />
           <Outlet />
         </MainContent>
       </Stack>

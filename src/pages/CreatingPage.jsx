@@ -10,13 +10,13 @@ const CreatingPage = () => {
   };
 
   return (
-    <div>
-      <h1>Creating Page</h1>
+    <>
+      <h1>Create A New Product</h1>
       <ProductForm
         initialData={{ name: "", description: "", price: "" }}
         onSubmit={handleCreateSubmit}
       />
-    </div>
+    </>
   );
 };
 

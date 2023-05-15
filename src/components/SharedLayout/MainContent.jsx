@@ -8,8 +8,8 @@ const MainContent = ({ children }) => {
       alignItems='center'
       display='flex'
       width='100%'
-      paddingLeft='240px'
-      sx={{ flexDirection: "column" }}
+      maxWirdht='800px'
+      flexDirection='column'
     >
       {children}
     </Box>
