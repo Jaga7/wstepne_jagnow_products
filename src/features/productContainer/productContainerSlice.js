@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-toastify";
 
 import api from "../../shared/utils/api";
 
@@ -47,15 +48,18 @@ const productContainerSlice = createSlice({
           description,
           price,
         };
+        toast.info("You edited a product");
       }
     },
     createAProduct(state, action) {
       state.products = [...state.products, { ...action.payload, id: uuidv4() }];
+      toast.info("You created a product");
     },
     deleteTheProduct(state, action) {
       state.products = state.products.filter(
         (product) => product.id !== action.payload
       );
+      toast.info("You deleted a product");
     },
   },
   extraReducers: (builder) => {
@@ -65,7 +69,11 @@ const productContainerSlice = createSlice({
       })
       .addCase(loadAProductFromApi.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.products = [...state.products, action.payload];
+        state.products = [
+          ...state.products,
+          { ...action.payload, id: uuidv4() },
+        ];
+        toast.info("You loaded a new product");
       })
       .addCase(loadAProductFromApi.rejected, (state) => {
         state.isLoading = false;
